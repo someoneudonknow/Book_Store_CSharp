@@ -35,8 +35,8 @@
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Hạng người dùng</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <h5 class="modal-title" id="exampleModalLabel">Chi tiết phiếu nhập</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Đóng">
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
@@ -44,7 +44,7 @@
                     <!-- The partial view will be loaded here -->
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+					<button type="button" class="btn btn-secondary" data-dismiss="modal">Đóng</button>
                 </div>
             </div>
         </div>
@@ -54,15 +54,15 @@
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Hạng người dùng</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+					<h5 class="modal-title" id="exampleModalLabel">Chi tiết phiếu nhập</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Đóng">
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
                 <div class="edit-modal-body modal-body">
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+					<button type="button" class="btn btn-secondary" data-dismiss="modal">Đóng</button>
                 </div>
             </div>
         </div>
@@ -93,16 +93,20 @@
                                 <thead>
                                     <tr>
                                         <th>
-                                            @Html.DisplayNameFor(model => model.First().BOOK_EDITION.EditionID)
+                                            @*@Html.DisplayNameFor(model => model.First().BOOK_EDITION.EditionID)*@
+                                            Mã sách
                                         </th>
                                         <th>
-                                            @Html.DisplayNameFor(model => model.First().BOOK_EDITION.EditionName)
+                                            @*@Html.DisplayNameFor(model => model.First().BOOK_EDITION.EditionName)*@
+                                            Tên sách
                                         </th>
                                         <th>
-                                            @Html.DisplayNameFor(model => model.First().NoteDetailQuantity)
+                                            @*@Html.DisplayNameFor(model => model.First().NoteDetailQuantity)*@
+                                            Số lượng nhập
                                         </th>
                                         <th>
-                                            @Html.DisplayNameFor(model => model.First().NoteDetailPrice)
+                                            @*@Html.DisplayNameFor(model => model.First().NoteDetailPrice)*@
+                                            Giá nhập
                                         </th>
 
                                         <th>Thao tác</th>
@@ -121,9 +125,11 @@
                                             <td>
                                                 @Html.DisplayFor(modelItem => item.NoteDetailQuantity)
                                             </td>
-                                            <td>
-                                                @Html.DisplayFor(modelItem => item.NoteDetailPrice)
-                                            </td>
+											<td>
+												@*@Html.DisplayFor(modelItem => item.NoteDetailPrice)*@
+
+												@item.NoteDetailPrice.ToString("#,##0").Replace(",", ".") VNĐ
+											</td>
 
                                             <td>
                                                 <button type="button" class="btn btn-primary" id="@item.NoteDetailID" data-toggle="modal" data-target="#editModal" value="@item.NoteDetailID" onclick="loadPartialView(this.value)">

@@ -72,7 +72,30 @@
 
 					<small class="pt-1">(@Model.bookReviews.Count Đánh giá)</small>
 				</div>
-				<h3 class="font-weight-semi-bold mb-4">@Model.currentBook.EditionPrice.ToString("#,##0").Replace(",", ".") VND</h3>
+				<div class="font-weight-semi-bold mb-4 d-flex align-items-center">
+					@if (Model.currentBook?.PROMOTIONs != null && Model.currentBook.PROMOTIONs.Count > 0)
+					{
+						var allValidPromotions = Model.currentBook.PROMOTIONs.Where(p => p.PromotionStartDate.CompareTo(DateTime.Now) < 0).ToList();
+						var maxDiscount = allValidPromotions.Max(p => p.PromotionDiscount);
+						var promotion = allValidPromotions.First(p => p.PromotionDiscount == maxDiscount);
+						var discountedPrice = (Model.currentBook.EditionPrice - (maxDiscount * Model.currentBook.EditionPrice / 100)).ToString("#,##0").Replace(",", ".");
+
+
+						if (maxDiscount != 0)
+						{
+							<h5>@discountedPrice VND</h5>
+							<h6 class="text-muted ml-2"><del>@Model.currentBook.EditionPrice.ToString("#,##0").Replace(",", ".") VND</del></h6>
+						}
+						else
+						{
+							<h5>@Model.currentBook.EditionPrice.ToString("#,##0").Replace(",", ".") VND</h5>
+						}
+					}
+					else
+					{
+						<h5>@Model.currentBook.EditionPrice.ToString("#,##0").Replace(",", ".") VND</h5>
+					}
+				</div>
 				<p class="mb-4">
 					@Html.DisplayFor(model => model.currentBook.EditionDescription)
 				</p>
@@ -83,14 +106,14 @@
 								<i class="fa fa-minus"></i>
 							</button>
 						</div>
-						<input type="text" class="form-control bg-secondary border-0 text-center" value="1">
+						<input type="number" id="quantity-input" class="form-control bg-secondary border-0 text-center" value="1">
 						<div class="input-group-btn">
 							<button class="btn btn-primary btn-plus">
 								<i class="fa fa-plus"></i>
 							</button>
 						</div>
 					</div>
-					@Html.ActionLink("Thêm vào giỏ hàng", "AddToCart", "BookCart", new { id = Model.currentBook.EditionID }, new { @class = "btn btn-primary px-3", id = "add-to-cart-btn" })
+					<button id="add-to-cart-btn" class="add-to-cart-btn btn btn-primary px-3">Thêm vào giỏ hàng</button>
 				</div>
 			</div>
 		</div>
@@ -109,18 +132,18 @@
 							<div class="col-md-3">
 								<ul class="list-group list-group-flush">
 									<li class="list-group-item px-0">
-										@Html.DisplayNameFor(model => model.currentBook.EditionYear)
+										Năm xuất bản
 									</li>
 									<li class="list-group-item px-0">
-										@Html.DisplayNameFor(model => model.currentBook.EditionPageCount)
+										Số trang
 									</li>
 									<li class="list-group-item px-0">
-										@Html.DisplayNameFor(model => model.currentBook.EditionAuthor)
+										Tác giả
 									</li>
 									@if (ViewBag.categories.Count > 0)
 									{
 										<li class="list-group-item px-0">
-											@Html.DisplayNameFor(model => model.currentBook.CATEGORies)
+											Thể loại
 										</li>
 									}
 									@if (ViewBag.relativeCollectionName?.trim() != "")
@@ -263,6 +286,22 @@
 		background-color: var(--primary);
 	}
 </style>
+@if(Model.sameCollectionBooks != null && Model.sameCollectionBooks.Count > 0) { 
+	<div class="container-fluid py-5">
+	<h2 class="section-title position-relative text-uppercase mx-xl-5 mb-4"><span class="bg-secondary pr-3">Sách cùng bộ sưu tập</span></h2>
+	<div class="row px-xl-5">
+		<div class="col">
+			<div class="owl-carousel related-carousel">
+				@foreach (var b in Model.sameCollectionBooks)
+				{
+					@Html.Action("Book", "SharedViews", b)
+				}
+			</div>
+		</div>
+	</div>
+</div>
+}
+
 <!-- Shop Detail End -->
 <!-- Products Start -->
 <div class="container-fluid py-5">
@@ -291,4 +330,17 @@
 			validator.customValidator('input[name="ReviewRating"]', "Hãy cho chúng tôi biết độ hài lòng của bạn", (val) => val !== '0')
 		]
 	});
+
+	document.querySelector("#add-to-cart-btn").onclick = async (e) => {
+		const quantity = document.querySelector("#quantity-input").value;
+
+		const response = await fetch(`/BookCart/AddToCart?id=${@Model.currentBook.EditionID}&amount=${quantity}`, {
+			method: "POST",
+			headers: {
+				"Content-Type": "application/json"
+			}
+		});
+
+		location.reload()
+	}
 </script>

@@ -16,12 +16,13 @@ namespace WebApplication2.Controllers
 		public ActionResult Index()
 		{
 			var categories = db.CATEGORies.ToList();
+			var collections = db.BOOK_COLLECTION.ToList();
 
 			ViewBag.categoriesList = categories;
+			ViewBag.collectionList = collections;
 
 			return View();
 		}
-
 		public ActionResult HighestRatingBooks()
 		{
 			var bookEditions = db.BOOK_EDITION.OrderByDescending(edition => edition.BOOK_REVIEW.Average(rv => rv.ReviewRating)).Take(8).ToList();

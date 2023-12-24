@@ -56,20 +56,23 @@
                             <div class="basic-form">
                                 <form>
                                     <div class="form-group row">
-                                        <label class="col-sm-4 col-form-label font-weight-bold"> @Html.DisplayNameFor(model => model.BOOK_EDITION.EditionID)</label>
+										<label class="col-sm-4 col-form-label font-weight-bold"> Mã sách</label>
                                         <div class="col-sm-6 col-form-label">
                                             @Html.DisplayFor(model => model.BOOK_EDITION.EditionID)
+                                            
                                         </div>
                                     </div>
                                     <div class="form-group row">
-                                        <label class="col-sm-4 col-form-label font-weight-bold">@Html.DisplayNameFor(model => model.BOOK_EDITION.EditionName)</label>
+										<label class="col-sm-4 col-form-label font-weight-bold">Tên sách</label>
                                         <div class="col-sm-6 col-form-label">
                                             @Html.DisplayFor(model => model.BOOK_EDITION.EditionName)
+                                            
                                         </div>
                                     </div>
                                     <div class="form-group row">
                                         <label class="col-sm-4 col-form-label font-weight-bold">
-                                            @Html.DisplayNameFor(model => model.InventoryStockInTotal)
+                                            @*@Html.DisplayNameFor(model => model.InventoryStockInTotal)*@
+                                            Tổng lượng nhập
                                         </label>
                                         <div class="col-sm-6 col-form-label">
                                             @Html.DisplayFor(model => model.InventoryStockInTotal)
@@ -77,7 +80,7 @@
                                     </div>
                                     <div class="form-group row">
                                         <label class="col-sm-4 col-form-label font-weight-bold">
-                                            @Html.DisplayNameFor(model => model.InventoryStockOutTotal)
+                                            Tổng lượng xuất
                                         </label>
                                         <div class="col-sm-6 col-form-label">
                                             @Html.DisplayFor(model => model.InventoryStockOutTotal)
@@ -85,7 +88,7 @@
                                     </div>
                                     <div class="form-group row">
                                         <label class="col-sm-4 col-form-label font-weight-bold">
-                                            @Html.DisplayNameFor(model => model.InventoryAvailableStock)
+                                            Tổng lượng sẵn có
                                         </label>
                                         <div class="col-sm-6 col-form-label">
                                             @Html.DisplayFor(model => model.InventoryAvailableStock)

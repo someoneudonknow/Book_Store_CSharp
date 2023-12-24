@@ -62,6 +62,8 @@ namespace WebApplication2.Models
         public virtual DbSet<V_UserRole> V_UserRole { get; set; }
         public virtual DbSet<V_cus_order_status_not_success> V_cus_order_status_not_success { get; set; }
         public virtual DbSet<V_cus_order_status> V_cus_order_status { get; set; }
+        public virtual DbSet<V_cus_order_status_is_cancel> V_cus_order_status_is_cancel { get; set; }
+        public virtual DbSet<V_cus_order_status_is_success> V_cus_order_status_is_success { get; set; }
     
         public virtual ObjectResult<Sp_check_valid_promotion_Result> Sp_check_valid_promotion(Nullable<int> editionID)
         {
@@ -105,6 +107,15 @@ namespace WebApplication2.Models
                 new ObjectParameter("ManagerID", typeof(int));
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("SP_Inital_Person", accountIDParameter, managerIDParameter);
+        }
+    
+        public virtual int sp_switch_status(Nullable<int> orderID)
+        {
+            var orderIDParameter = orderID.HasValue ?
+                new ObjectParameter("orderID", orderID) :
+                new ObjectParameter("orderID", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("sp_switch_status", orderIDParameter);
         }
     }
 }

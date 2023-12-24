@@ -33,8 +33,7 @@
             }
 
             let usedDate = new Date();
-            usedDate.setFullYear(@Html.Raw(ViewBag.Year),@Html.Raw(ViewBag.Month) - 1, 1)
-            console.log(usedDate)
+            usedDate.setFullYear(@Html.Raw(ViewBag.Year) - 1,@Html.Raw(ViewBag.Month) - 1, 1)
 
             let daysInThisMonth = getArrayOfDate(usedDate);
             let daysInThisMonthFormat = daysInThisMonth.map(d => "N "+ d)
@@ -44,13 +43,15 @@
 
             let usedMonth = new Date().getMonth();
             console.log(usedMonth)
+			console.log(usedDate.getFullYear(), usedDate.getMonth() )
 
             revenueArray.forEach(item => {
                 const { Year, Month, Day, Revenue } = item;
                 console.log(Day)
-                if (Year === usedDate.getFullYear(), Month === usedDate.getMonth())
+				if (Year === usedDate.getFullYear() && Month === usedMonth + 1)
                     chartData[Day - 1] = Revenue
             });
+			console.log(chartData)
 
             $('#RevenueOfThisMonthLabel').html("Biểu đồ doanh thu tháng " + (usedDate.getMonth()));
             const ctx = document.getElementById('RevenueOfThisMonth');
@@ -75,6 +76,7 @@
                     }
                 }
             });
+            console.log("hehe")
         }
     })
 </script>

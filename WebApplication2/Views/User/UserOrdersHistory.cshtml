@@ -1,14 +1,14 @@
 ﻿@model IEnumerable<WebApplication2.Models.OrderHistoryModel>
 
 <div class="container-fluid" style="height: calc(700px - 30px); overflow-y: scroll; overflow-x: hidden">
-	<div class="orders w-100 py-3">
+	<div class="orders w-100 py-3 history-item-wrapper">
 		@if (Model.ToList().Count > 0)
 		{
 			foreach (var o in Model)
 			{
 				<div class="order d-flex flex-column border-bottom border-light py-3">
 					<div class="heading-light d-flex justify-content-between mb-3">
-						<div class="payment-method font-weight-bold">Ngày mua: @o.order.OrderDate</div>
+						<div class="payment-method font-weight-bold">Ngày mua: @o.order.OrderDate.ToString("dd/MM/yyyy")</div>
 						<div class="shipping-method font-weight-bold">
 							Phương thức giao hàng:
 							@{
@@ -38,7 +38,14 @@
 							}
 						}</div>
 						<div class="payment-method font-weight-bold" class="order-status">
-							Trạng thái: @o.orderStatus
+							Trạng thái: 
+							@if(o.orderStatus == "CHỜ XÁC NHẬN" || o.orderStatus == "ĐANG XỬ LÝ" || o.orderStatus == "ĐANG GIAO") {
+								<span class="text-info">@o.orderStatus</span>
+							}else if(o.orderStatus == "ĐÃ HỦY" || o.orderStatus == "ĐÃ HỦY DO GIAO HÀNG KHÔNG THÀNH CÔNG") { 
+								<span class="text-danger">@o.orderStatus</span>
+							}else { 
+								<span class="text-success">@o.orderStatus</span>
+							}
 						</div>
 					</div>
 					<div>
@@ -50,6 +57,12 @@
 					<div class="total-price text-right h5 text-danger">
 						Tổng tiền: @o.order.OrderTotalPrice.ToString("#,##0").Replace(",", ".") VND
 					</div>
+					@if(@o.orderStatus == "CHỜ XÁC NHẬN")
+					{
+						<form class="cancel-form text-right mt-2" action="@Url.Action("CancelByCustomer", "CUSTOMER_ORDER", new { id = o.order.OrderID })">
+							<button class="cancel-order btn btn-danger">Hủy đơn</button>
+						</form>
+					}
 				</div>
 			}
 		}
@@ -60,3 +73,27 @@
 		}
 	</div>
 </div>
+
+<script>
+	var listElm = document.querySelector('#infinite-list');
+
+	// Add 20 items.
+	var nextItem = 1;
+	var loadMore = function () {
+		for (var i = 0; i < 20; i++) {
+			var item = document.createElement('li');
+			item.innerText = 'Item ' + nextItem++;
+			listElm.appendChild(item);
+		}
+	}
+
+	// Detect when scrolled to bottom.
+	listElm.addEventListener('scroll', function () {
+		if (listElm.scrollTop + listElm.clientHeight >= listElm.scrollHeight) {
+			loadMore();
+		}
+	});
+
+	// Initially load some items.
+	loadMore();
+</script>

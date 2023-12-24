@@ -1,7 +1,7 @@
 ﻿@model WebApplication2.Models.PROMOTION
 
 @{
-    ViewBag.Title = "Edit";
+	ViewBag.Title = "Edit";
 
 }
 
@@ -11,157 +11,164 @@
 
 @using (Html.BeginForm("Edit", "PROMOTIONs", FormMethod.Post, new { enctype = "multipart/form-data" }))
 {
-    @Html.AntiForgeryToken()
+	@Html.AntiForgeryToken()
 
-    <div class="form-horizontal w-100">
-        <h4>Thông tin khuyến mãi</h4>
+	<div class="form-horizontal w-100">
+		<h4>Thông tin khuyến mãi</h4>
 
-        <hr />
-        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-        @Html.HiddenFor(model => model.PromotionID)
-
-      
-    <div class="row">
-        <div class="form-group col-6">
-            @Html.LabelFor(model => model.PromotionName, htmlAttributes: new { @class = "control-label col-md-10 " })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.PromotionName, new { htmlAttributes = new { @class = "form-control", @required = "required" } })
-                @Html.ValidationMessageFor(model => model.PromotionName, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-        <div class="form-group col-6">
-            @Html.LabelFor(model => model.PromotionDiscount, htmlAttributes: new { @class = "control-label col-md-10  " })
-            <div class="col-md-10">
-                <input class="form-control" id="PromotionDiscount" , name="PromotionDiscount" value="@((int)Model.PromotionDiscount)" required type="number" />
-                @Html.ValidationMessageFor(model => model.PromotionDiscount, "", new { @class = "text-danger" })
-            </div>
-        </div>
-        <div class="form-group col-6">
-            @Html.LabelFor(model => model.PromotionStartDate, htmlAttributes: new { @class = "control-label col-md-10  " })
-            <div class="col-md-10">
-                <input type="datetime-local" id="PromotionStartDateEdit" name="PromotionStartDate" class="form-control" value="@ViewBag.startDateFormat" />
-                @Html.ValidationMessageFor(model => model.PromotionStartDate, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-        <div class="form-group col-6">
-            @Html.LabelFor(model => model.PromotionEndDate, htmlAttributes: new { @class = "control-label  col-md-10 " })
-            <div class="col-md-10">
-                <input type="datetime-local" id="PromotionEndDateEdit" name="PromotionEndDate" class="form-control" value="@ViewBag.endDateFormat" />
-                @Html.ValidationMessageFor(model => model.PromotionEndDate, "", new { @class = "text-danger" })
-            </div>
-        </div>
+		<hr />
+		@Html.ValidationSummary(true, "", new { @class = "text-danger" })
+		@Html.HiddenFor(model => model.PromotionID)
 
 
-        <div class="form-group col-6">
-            @Html.LabelFor(model => model.PromotionDetails, htmlAttributes: new { @class = "control-label col-md-10 " })
-            <div class="col-md-10">
-                <textarea class="form-control " rows="6" id="editPromotionDetails" name="PromotionDetails">@Model.PromotionDetails</textarea>
-                @Html.ValidationMessageFor(model => model.PromotionDetails, "", new { @class = "text-danger" })
-                <br />
-                <label for="auto-generate">Tự động tạo:</label>
-                <input type="checkbox" id="auto-generate" name="auto-generate" value="enable" />
-            </div>
-        </div>
-        <div class="form-group col-6">
-            <div class="col-md-10">Danh sách sách đã chọn:</div>
-            <div id="labelEditSelect" style="height: 100px; overflow-y: auto;" class="col-md-10">
-            </div>
-        </div>
+		<div class="row">
+			<div class="form-group col-6">
+				@*@Html.LabelFor(model => model.PromotionName, htmlAttributes: new { @class = "control-label col-md-10 " })*@
+				<label class="control-label col-md-10 ">Tên khuyến mãi</label>
+
+				<div class="col-md-10">
+					@Html.EditorFor(model => model.PromotionName, new { htmlAttributes = new { @class = "form-control", @required = "required" } })
+					@Html.ValidationMessageFor(model => model.PromotionName, "", new { @class = "text-danger" })
+				</div>
+			</div>
+
+			<div class="form-group col-6">
+				@*@Html.LabelFor(model => model.PromotionDiscount, htmlAttributes: new { @class = "control-label col-md-10  " })*@
+				<label class="control-label col-md-10 ">Mức khuyến mãi</label>
+
+				<div class="col-md-10">
+					<input class="form-control" id="PromotionDiscount" , name="PromotionDiscount" value="@((int)Model.PromotionDiscount)" required type="number" />
+					@Html.ValidationMessageFor(model => model.PromotionDiscount, "", new { @class = "text-danger" })
+				</div>
+			</div>
+			<div class="form-group col-6">
+				@*@Html.LabelFor(model => model.PromotionStartDate, htmlAttributes: new { @class = "control-label col-md-10  " })*@
+				<label class="control-label col-md-10 ">Ngày bắt đầu</label>
+
+				<div class="col-md-10">
+					<input type="datetime-local" id="PromotionStartDateEdit" name="PromotionStartDate" class="form-control" value="@ViewBag.startDateFormat" />
+					@Html.ValidationMessageFor(model => model.PromotionStartDate, "", new { @class = "text-danger" })
+				</div>
+			</div>
+
+			<div class="form-group col-6">
+				@*@Html.LabelFor(model => model.PromotionEndDate, htmlAttributes: new { @class = "control-label  col-md-10 " })*@
+				<label class="control-label col-md-10 ">Ngày kết thúc</label>
+
+				<div class="col-md-10">
+					<input type="datetime-local" id="PromotionEndDateEdit" name="PromotionEndDate" class="form-control" value="@ViewBag.endDateFormat" />
+					@Html.ValidationMessageFor(model => model.PromotionEndDate, "", new { @class = "text-danger" })
+				</div>
+			</div>
 
 
+			<div class="form-group col-6">
+				@*@Html.LabelFor(model => model.PromotionDetails, htmlAttributes: new { @class = "control-label col-md-10 " })*@
+				<label class="control-label col-md-10 ">Chi tiết khuyến mãi	</label>
 
-        <div class="form-group col-6">
-            <div class="col-md-offset-2 col-md-10">
-                <label>Danh sách được áp dụng khuyến mãi</label>
-                <div>
-                    <span>Tìm kiếm: </span>
-                    <input class="w-100" oninput="reloadCheckbox(this.value)" />
-                </div>
-                <hr />
-
-                <div style="height: 300px; overflow-y: auto;" id="editEditionSelect">
+				<div class="col-md-10">
+					<textarea class="form-control " rows="6" id="editPromotionDetails" name="PromotionDetails">@Model.PromotionDetails</textarea>
+					@Html.ValidationMessageFor(model => model.PromotionDetails, "", new { @class = "text-danger" })
+					<br />
+					<label for="auto-generate">Tự động tạo:</label>
+					<input type="checkbox" id="auto-generate" name="auto-generate" value="enable" />
+				</div>
+			</div>
+			<div class="form-group col-6">
+				<div class="col-md-10">Danh sách sách đã chọn:</div>
+				<div id="labelEditSelect" style="height: 100px; overflow-y: auto;" class="col-md-10">
+				</div>
+			</div>
 
 
 
-                </div>
-            </div>
-        </div>
+			<div class="form-group col-6">
+				<div class="col-md-offset-2 col-md-10">
+					<label>Danh sách được áp dụng khuyến mãi</label>
+					<div>
+						<span>Tìm kiếm: </span>
+						<input class="w-100" oninput="reloadCheckbox(this.value)" />
+					</div>
+					<hr />
+
+					<div style="height: 300px; overflow-y: auto;" id="editEditionSelect">
 
 
-        <input type="hidden" id="editSelectedValueInput" name="editSelectedValueInput" />
 
+					</div>
+				</div>
+			</div>
+			<input type="hidden" id="editSelectedValueInput" name="editSelectedValueInput" />
 
-        <div class="form-group col-6" style="margin-top:250px; padding-left:100px">
-            <div class="col-md-offset-2 col-md-10">
-                <label>Tác vụ</label>
-                <br />
-                <input type="submit" value="Lưu" class="btn btn-primary" />
-                <button type="button" class="btn btn-dark" onclick="loadController(@Model.PromotionID)">Xóa</button>
-            </div>
-        </div>
-        <div class="form-group col-6">
-            <div class="error-message ">
-            </div>
-        </div>
-    </div>
-
-    </div>
+		</div>
+		<hr />
+		<div class="form-group " >
+			<div class="">
+				<label>Tác vụ</label>
+				<br />
+				<input type="submit" value="Lưu" class="btn btn-primary" />
+				<button type="button" class="btn btn-dark" onclick="loadController(@Model.PromotionID)">Xóa</button>
+			</div>
+		</div>
+		<div class="form-group col-6">
+			<div class="error-message ">
+			</div>
+		</div>
+	</div>
 }
 
 
 
 <script>
-    function loadController(id) {
-        var userResponse = confirm("Bạn có chắc muốn xóa khuyến mãi này ?");
-        if (userResponse == true) {
-            var token = $('input[name="__RequestVerificationToken"]').val();
-            $.ajax({
-                url: '/Manager/PROMOTIONs/Delete',
-                data: { id: id, __RequestVerificationToken: token },
-                type: 'POST',
-                success: function (data) {
-                    if (data.redirectToAction) {
-                        window.location.href = data.actionUrl;
-                    } else {
-                        $(".error-message").html(data);
-                    }
-                }
-            });
-        }
+	function loadController(id) {
+		var userResponse = confirm("Bạn có chắc muốn xóa khuyến mãi này ?");
+		if (userResponse == true) {
+			var token = $('input[name="__RequestVerificationToken"]').val();
+			$.ajax({
+				url: '/Manager/PROMOTIONs/Delete',
+				data: { id: id, __RequestVerificationToken: token },
+				type: 'POST',
+				success: function (data) {
+					if (data.redirectToAction) {
+						window.location.href = data.actionUrl;
+					} else {
+						$(".error-message").html(data);
+					}
+				}
+			});
+		}
 
-    }
+	}
 </script>
 @section Scripts {
-    @Scripts.Render("~/bundles/jqueryval")
+	@Scripts.Render("~/bundles/jqueryval")
 }
 <script>
-    $(document).ready(function () {
-        var initial = new Date($("#PromotionStartDateEdit").val())
-        $("#PromotionStartDateEdit").prop("disabled", true);
-        initial.setMinutes(initial.getMinutes() + 10)
-        initial.setHours(initial.getHours() + 7)
-        $("#PromotionEndDateEdit").prop("min", initial.toISOString().slice(0, 16));
+	$(document).ready(function () {
+		var initial = new Date($("#PromotionStartDateEdit").val())
+		$("#PromotionStartDateEdit").prop("disabled", true);
+		initial.setMinutes(initial.getMinutes() + 10)
+		initial.setHours(initial.getHours() + 7)
+		$("#PromotionEndDateEdit").prop("min", initial.toISOString().slice(0, 16));
 
 
-        $("#PromotionStartDateEdit").on("change", function () {
-            var minDate = new Date($(this).val());
-            minDate.setMinutes(minDate.getMinutes() + 10);
-            $("#PromotionEndDateEdit").prop("min", minDate.toISOString().slice(0, 16));
-        });
-    });
+		$("#PromotionStartDateEdit").on("change", function () {
+			var minDate = new Date($(this).val());
+			minDate.setMinutes(minDate.getMinutes() + 10);
+			$("#PromotionEndDateEdit").prop("min", minDate.toISOString().slice(0, 16));
+		});
+	});
 </script>
 <script>
-    $(document).ready(function () {
-        $('#auto-generate').change(function () {
-            if (this.checked) {
-                $('#editPromotionDetails').prop('readonly', true);
-            } else {
-                $('#editPromotionDetails').prop('readonly', false);
-            }
-        });
-    });
+	$(document).ready(function () {
+		$('#auto-generate').change(function () {
+			if (this.checked) {
+				$('#editPromotionDetails').prop('readonly', true);
+			} else {
+				$('#editPromotionDetails').prop('readonly', false);
+			}
+		});
+	});
 </script>
 
 
@@ -235,7 +242,7 @@
                             background: #fff;
                         `
 
-                    
+
                     const str = `
                                     <input class="custom-checkbox" style="${style}" type="checkbox" id=${key} value=${key}  onchange="editSelectCheckbox(${key})" ${check} ${isDisabled} />
                                     <label>${"Tên sách: " + editions[key].EditionName + " - Mã: " + key}</label>

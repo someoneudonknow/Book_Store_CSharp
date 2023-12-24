@@ -8,6 +8,7 @@ using WebApplication2.Models;
 
 namespace WebApplication2.Controllers
 {
+    [Authorize(Roles = "Customer")]
     public class BookCartController : Controller
     {
         private BookStoreManagerEntities db = new BookStoreManagerEntities();
@@ -44,15 +45,17 @@ namespace WebApplication2.Controllers
             return View(BookCart);
         }
 
-        public ActionResult AddToCart(int id)
+        public ActionResult AddToCart(int id, int? amount)
         {
             if (Session["ShoppingCart"] == null)
             {
                 Session["ShoppingCart"] = new List<CartModels>();
             }
             List<CartModels> BookCart = Session["ShoppingCart"] as List<CartModels>;
-            
-            if (BookCart.FirstOrDefault(m => m.Book_Information.EditionID == id) == null)
+
+            CartModels cartItem = BookCart.FirstOrDefault(m => m.Book_Information.EditionID == id);
+
+            if (cartItem == null)
             {
                 BOOK_EDITION bOOK = db.BOOK_EDITION.Find(id);
                 if(bOOK == null)
@@ -70,15 +73,18 @@ namespace WebApplication2.Controllers
 
                     BookImage = (bOOK_IMAGE == null) ? "default-book-img.png" : bOOK_IMAGE.EditionImage,
                     Discount = (pROMOTION == null) ? 0 : pROMOTION.PromotionDiscount,
-                    Amount = 1,
+                    Amount = amount ?? 1,
                     Total = 0
                 };
                 cart.Total = UpdateTotal(cart);
                 BookCart.Add(cart);
+			}
+			else
+			{
+                cartItem.Amount += amount ?? 1;
             }
 
             return Redirect(Request.UrlReferrer.ToString());
-            //return RedirectToAction("Index", "BookCart");
         }
 
         public decimal UpdateTotal(CartModels cart)

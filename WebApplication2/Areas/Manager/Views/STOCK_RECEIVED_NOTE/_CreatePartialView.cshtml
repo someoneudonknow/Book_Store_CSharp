@@ -20,12 +20,14 @@ else
             <h4>Thông tin phiếu nhập</h4>
             <hr />
             @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-            <div class="form-group">
-                @Html.LabelFor(model => model.StockReceivedNoteDate, htmlAttributes: new { @class = "control-label col-md-10" })
-                <div id="createDate" class="col-md-10">
-                    <input type="datetime-local" id="StockReceivedNoteDate" name="StockReceivedNoteDate" required>
-                </div>
-            </div>
+		<div class="form-group">
+			@*@Html.LabelFor(model => model.StockReceivedNoteDate, htmlAttributes: new { @class = "control-label col-md-10" })*@
+			<label class="control-label col-md-10 ">Ngày nhập</label>
+
+			<div id="createDate" class="col-md-10">
+				<input type="datetime-local" id="StockReceivedNoteDate" name="StockReceivedNoteDate" required>
+			</div>
+		</div>
 
             <div class="form-group">
                 @Html.LabelFor(model => model.PublisherID, "Nhà xuất bản", htmlAttributes: new { @class = "control-label col-md-10" })

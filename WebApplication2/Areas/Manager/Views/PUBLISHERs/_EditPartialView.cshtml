@@ -19,18 +19,22 @@
     <h4>Thông tin nhà xuất bản</h4>
     <hr />
     @Html.ValidationSummary("", new { @class = "text-danger" })
-    <div class="form-group">
-        @Html.LabelFor(m => m.PublisherName, new { @class = "control-label col-md-10" })
-        <div id="editDuplicate" class="col-md-10">
-            @Html.TextBoxFor(m => m.PublisherName, new { @class = "form-control", @onchange = "handleDuplicateEdit()", @required = "required" })
-        </div>
-    </div>
-    <div class="form-group">
-        @Html.LabelFor(m => m.PublisherDescription, new { @class = " control-label col-md-10" })
-        <div class="col-md-10">
-            @Html.TextBoxFor(m => m.PublisherDescription, new { @class = "form-control", @required = "required" })
-        </div>
-    </div>
+<div class="form-group">
+	@*@Html.LabelFor(m => m.PublisherName, new { @class = "control-label col-md-10" })*@
+	<label class="control-label col-md-10 ">Tên nhà xuất bản</label>
+
+	<div id="editDuplicate" class="col-md-10">
+		@Html.TextBoxFor(m => m.PublisherName, new { @class = "form-control", @onchange = "handleDuplicateEdit()", @required = "required" })
+	</div>
+</div>
+<div class="form-group">
+	@*@Html.LabelFor(m => m.PublisherDescription, new { @class = " control-label col-md-10" })*@
+	<label class="control-label col-md-10 ">Mô tả</label>
+
+	<div class="col-md-10">
+		@Html.TextBoxFor(m => m.PublisherDescription, new { @class = "form-control", @required = "required" })
+	</div>
+</div>
     <div class="form-group">
         <div class="col-md-10">
             <label for="publisherImgEdit">Ảnh của nhà xuất bản:</label>

@@ -26,15 +26,21 @@ namespace WebApplication2.Controllers
             BOOK_EDITION book = db.BOOK_EDITION.Where(b => b.EditionID == id).SingleOrDefault();
 
             if (book == null) return HttpNotFound();
+            var relativeBookCollection = db.BOOK_COLLECTION.FirstOrDefault(c => c.BookCollectionID == book.BookCollectionID);
 
             m.currentBook = book;
             m.bookReviews = db.BOOK_REVIEW.Where(e => e.EditionID == id).ToList();
-            m.relativeCollectionName = db.BOOK_COLLECTION.FirstOrDefault(c => c.BookCollectionID == book.BookCollectionID)?.BookCollectionName ?? "";
+            m.relativeCollectionName = relativeBookCollection?.BookCollectionName ?? "";
             m.imageList = db.BOOK_EDITION_IMAGE.Where(i => i.EditionID == book.EditionID).ToList();
             m.similarBooks = BooksFilter.getSimilarBooks(book.EditionID);
 
             List<int> categoriesIds = book.CATEGORies.Select(c => c.CategoryID).ToList();
             ViewBag.categories = db.CATEGORies.Where(c => categoriesIds.Contains(c.CategoryID)).ToList();
+
+            if(relativeBookCollection != null)
+			{
+                m.sameCollectionBooks = relativeBookCollection.BOOK_EDITION.ToList();
+            }
 
             if (TempData["ErrorMessage"] != null)
             {
@@ -60,8 +66,10 @@ namespace WebApplication2.Controllers
             return View(m);
         }
 
-        public List<(int, int)> getPriceRange(List<BOOK_EDITION> bookList)
+        public List<(int, int)> getPriceRange()
 		{
+            List<BOOK_EDITION> bookList = db.BOOK_EDITION.ToList();
+
             List<(int, int)> priceRange = new List<(int, int)>();
 
             decimal minPrice = bookList.Aggregate(decimal.MaxValue, (acc, curr) =>
@@ -116,7 +124,7 @@ namespace WebApplication2.Controllers
             List<BOOK_EDITION> books = (List<BOOK_EDITION>)TempData["bookList"] ?? db.BOOK_EDITION.ToList();
 
             ViewBag.selectedCategory = TempData["selectedCategory"];
-            ViewBag.priceRanges = getPriceRange(books);
+            ViewBag.priceRanges = getPriceRange();
             ViewBag.categories = db.CATEGORies.ToList();
             ViewBag.totalItemAmount = books.Count;
 
@@ -218,6 +226,12 @@ namespace WebApplication2.Controllers
             return RedirectToAction("Filter");
         }
 
+        public ActionResult FilterByCollection(int id)
+		{
+            TempData["bookList"] = db.BOOK_EDITION.Where(b => b.BOOK_COLLECTION.BookCollectionID == id).ToList();
+
+            return RedirectToAction("Filter");
+        }
         public ActionResult FilterByText(string query)
         {
             TempData["bookList"] = BooksFilter.filterByText(query);

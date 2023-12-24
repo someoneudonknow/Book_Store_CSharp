@@ -46,8 +46,10 @@ BEGIN
 		INSERT INTO WALLET(CustomerID, Balance) VALUES (@CustomerID, 0)
 	end
 END
+SELECT * FROM CUSTOMER_ORDER
+SELECT * FROM CUSTOMER_ORDER_DETAIL
 
-
+select * from WALLET
 -- triger on BOOK_EDITION TO INITIAL STOCK_INVENTORY
 GO
 CREATE or alter TRIGGER TR_INITIAL_STOCK_INVENTORY ON BOOK_EDITION FOR INSERT AS
@@ -305,4 +307,4 @@ begin
 		update PROMOTION set PromotionDetails = right(@detail,len(@detail) -2) where PromotionID = @promoID
 	end
 end
-
+drop trigger  SetPromotionDetial

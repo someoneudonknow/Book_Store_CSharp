@@ -15,7 +15,6 @@ using WebApplication2.Models;
 
 namespace WebApplication2.Controllers
 {
-    [Authorize]
     public class AccountController : Controller
     {
         private ApplicationSignInManager _signInManager;
@@ -85,9 +84,16 @@ namespace WebApplication2.Controllers
                     var manager = db.AspNetRoles.FirstOrDefault(a => a.Id == "1").AspNetUsers;
                     if (manager != null && manager.ToList().Count > 0 && manager.ToList()[0].Email == model.Email)
                     {
-                        return RedirectToAction("Index", "User", new { area = "Manager" });
+                        return RedirectToAction("Dashboard", "Home", new { area = "Manager" });
                     }
-                    return RedirectToLocal(returnUrl);
+                    string userID = db.AspNetUsers.FirstOrDefault(e => e.Email == model.Email).Id;
+                    string currentRole = db.V_UserRole.FirstOrDefault(r => r.UserId == userID).Name;
+
+                    if (currentRole == "Staff" || currentRole == "Shipper")
+					{
+						return RedirectToAction("Index", "Customer_order");
+					}
+					return RedirectToLocal(returnUrl);
                 case SignInStatus.LockedOut:
                     return View("Lockout");
                 case SignInStatus.RequiresVerification:
@@ -176,36 +182,36 @@ namespace WebApplication2.Controllers
                 var result = await UserManager.CreateAsync(user, model.Password);
                 if (result.Succeeded)
                 {
-                    string role = "";
-                    switch (model.AccountType)
-                    {
-                        case 2:
-                            role = "Staff";
-                            break;
-                        case 3:
-                            role = "Shipper";
-                            break;
-                        case 4:
-                            role = "Customer";
-                            break;
-                        default:
-                            role = "Customer";
-                            break;
-                    }
-                    await UserManager.AddToRoleAsync(user.Id, role);
-                    //create shipper, staff, customer
-                    db.SP_Inital_Person(user.Id, (db.MANAGERs.ToList())[0].ManagerID);
+					string role = "";
+					switch (model.AccountType)
+					{
+						case 2:
+							role = "Staff";
+							break;
+						case 3:
+							role = "Shipper";
+							break;
+						case 4:
+							role = "Customer";
+							break;
+						default:
+							role = "Customer";
+							break;
+					}
+					await UserManager.AddToRoleAsync(user.Id, role);
+					//create shipper, staff, customer
+					db.SP_Inital_Person(user.Id, (db.MANAGERs.ToList())[0].ManagerID);
 
-                    if (User.Identity.IsAuthenticated && User.IsInRole("Manager"))
-                    {
-                        return RedirectToAction("Index", "User", new { area = "Manager" });
-                    }
+					if (User.Identity.IsAuthenticated && User.IsInRole("Manager"))
+					{
+						return RedirectToAction("Index", "User", new { area = "Manager" });
+					}
 
 
-                    //uncomment this to create manager (only 1 manager is allowed)
-                    //db.SP_Inital_Manager(user.Id);
-                    //await UserManager.AddToRoleAsync(user.Id, "Manager");
-                    // END: create customer account section
+					//uncomment this to create manager (only 1 manager is allowed)
+					//db.SP_Inital_Manager(user.Id);
+					//await UserManager.AddToRoleAsync(user.Id, "Manager");
+					// END: create customer account section
 
 
 					// START: create manager account section
@@ -214,23 +220,23 @@ namespace WebApplication2.Controllers
 					//await UserManager.AddToRoleAsync(user.Id, "Manager");
 
 					// END: create manager account section
-                    db.SP_Inital_Manager(user.Id);
-                    await UserManager.AddToRoleAsync(user.Id, "Manager");
+					//db.SP_Inital_Manager(user.Id);
+					//await UserManager.AddToRoleAsync(user.Id, "Manager");
 
-                    // END: create manager account section
+					// END: create manager account section
 
-                    //await SignInManager.SignInAsync(user, isPersistent: false, rememberBrowser: false);
+					//await SignInManager.SignInAsync(user, isPersistent: false, rememberBrowser: false);
 
 
 
 					await SignInManager.SignInAsync(user, isPersistent: false, rememberBrowser: false);
+                    //return RedirectToAction("Dashboard", "Home", new { area = "Manager" });
 
-					//// For more information on how to enable account confirmation and password reset please visit https://go.microsoft.com/fwlink/?LinkID=320771
-					//// Send an email with this link
-					//// string code = await UserManager.GenerateEmailConfirmationTokenAsync(user.Id);
-					//// var callbackUrl = Url.Action("ConfirmEmail", "Account", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);
-					//// await UserManager.SendEmailAsync(user.Id, "Confirm your account", "Please confirm your account by clicking <a href=\"" + callbackUrl + "\">here</a>");
-					return RedirectToAction("Index", "Home");
+                    //// For more information on how to enable account confirmation and password reset please visit https://go.microsoft.com/fwlink/?LinkID=320771
+                    //// Send an email with this link
+                    //// string code = await UserManager.GenerateEmailConfirmationTokenAsync(user.Id);
+                    //// var callbackUrl = Url.Action("ConfirmEmail", "Account", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);
+                    //// await UserManager.SendEmailAsync(user.Id, "Confirm your account", "Please confirm your account by clicking <a href=\"" + callbackUrl + "\">here</a>");
 				}
                 AddErrors(result);
             }

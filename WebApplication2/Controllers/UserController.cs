@@ -11,12 +11,13 @@ using Microsoft.AspNet.Identity;
 
 namespace WebApplication2.Controllers
 {
+	[Authorize(Roles = "Customer")]
+
 	public class UserController : Controller
 	{
 		private BookStoreManagerEntities db = new BookStoreManagerEntities();
 
-		[Authorize]
-		//[Authorize(Roles = "Customer")]
+		[Authorize(Roles = "Customer")]
 		public ActionResult UserDetail()
 		{
 			string userID = User.Identity.GetUserId();
@@ -96,13 +97,12 @@ namespace WebApplication2.Controllers
 			return RedirectToAction("Index", "Manage");
 		}
 
-		[Authorize]
-		//[Authorize(Roles = "Customer")]
+		[Authorize(Roles = "Customer")]
 		public ActionResult UserOrdersHistory()
 		{
 			IDictionary<string, string> orderStatusTranslate = new Dictionary<string, string>() {
-				{ "WAITING", "CHỜ XÁC NHẬN" },
-				{ "CANCEL BY CUSTOMER", "ĐÃ HỦY" },
+				{"WAITING", "CHỜ XÁC NHẬN" },
+				{"CANCEL BY CUSTOMER", "ĐÃ HỦY" },
 				{"PROCESSING", "ĐANG XỬ LÝ"},
 				{"IS AVAILABLE AT STORE", "ĐÃ CÓ TẠI CỬA HÀNG" },
 				{"DELIVERING", "ĐANG GIAO"},
@@ -180,9 +180,9 @@ namespace WebApplication2.Controllers
 			string currentUserId = User.Identity.GetUserId();
 			Person relatedPerson = db.People.FirstOrDefault(p => p.AccountID == currentUserId);
 			IDictionary<string, decimal> userSpending = new Dictionary<string, decimal>();
-			List<CUSTOMER_ORDER> currentUserOrders = db.CUSTOMER_ORDER.Where(co => co.CustomerID == relatedPerson.PersonID).ToList();
+			List<CUSTOMER_ORDER> currentUserOrders = db.CUSTOMER_ORDER.Where(co => co.CustomerID == relatedPerson.PersonID).ToList().Where(o => o.CUSTOMER_ORDER_STATUS.LastOrDefault().ORDER_STATUS.OrderStatus == "SUCCESS").ToList();
 
-			foreach(var co in currentUserOrders)
+			foreach (var co in currentUserOrders)
 			{
 				if(!userSpending.ContainsKey(co.OrderDate.Month.ToString()))
 				{
@@ -200,9 +200,14 @@ namespace WebApplication2.Controllers
 		{
 			string currentUserId = User.Identity.GetUserId();
 			Person relatedPerson = db.People.FirstOrDefault(p => p.AccountID == currentUserId);
+			var orders = db.CUSTOMER_ORDER.Where(co => co.CustomerID == relatedPerson.PersonID).ToList().Where(o => o.CUSTOMER_ORDER_STATUS.LastOrDefault().ORDER_STATUS.OrderStatus == "SUCCESS").ToList();
 
+			if(orders != null && orders.Count > 0)
+			{
+				return orders.Select(co => co.OrderTotalPrice).Sum();
+			}
 
-			return db.CUSTOMER_ORDER.Where(co => co.CustomerID == relatedPerson.PersonID).Select(co => co.OrderTotalPrice).Sum();
+			return decimal.Zero;
 		}
 
 		private KeyValuePair<string, decimal> mostSpendingMonth()
@@ -212,15 +217,27 @@ namespace WebApplication2.Controllers
 			IDictionary<string, decimal> userSpendingONEachMonth = totalMoneySpendOnEachMonth();
 			string keyOfMaxValue = userSpendingONEachMonth.FirstOrDefault(x => x.Value == userSpendingONEachMonth.Values.Max()).Key;
 
-			return new KeyValuePair<string, decimal>(keyOfMaxValue, userSpendingONEachMonth[keyOfMaxValue]);
-		}
+			if(keyOfMaxValue != null)
+			{
+				return new KeyValuePair<string, decimal>(keyOfMaxValue, userSpendingONEachMonth[keyOfMaxValue]);
+			}
 
+			return new KeyValuePair<string, decimal>("", decimal.Zero);
+		}
 		private int boughtBooks()
 		{
 			string currentUserId = User.Identity.GetUserId();
 			Person relatedPerson = db.People.FirstOrDefault(p => p.AccountID == currentUserId);
 
-			return db.CUSTOMER_ORDER_DETAIL.Where(coi => coi.CUSTOMER_ORDER.CustomerID == relatedPerson.PersonID).Select(coi => coi.DetailQuantity).Sum();
+			var orderDetail = db.CUSTOMER_ORDER_DETAIL
+				.Where(coi => coi.CUSTOMER_ORDER.CustomerID == relatedPerson.PersonID).ToList();
+
+			if(orderDetail != null && orderDetail.Count > 0)
+			{
+				return orderDetail.Select(coi => coi.DetailQuantity).Sum();
+			}
+
+			return 0;
 		}
 
 		private KeyValuePair<string, int> mostLoveCategory()
@@ -249,7 +266,7 @@ namespace WebApplication2.Controllers
 			return new KeyValuePair<string, int>(highestBoughtCategory, userSpendingOnCategory[highestBoughtCategory]); ;
 		}
 
-		//[Authorize(Roles = "Customer")]
+		[Authorize(Roles = "Customer")]
 		public ActionResult UserWallet()
 		{
 			string currentUserId = User.Identity.GetUserId();
@@ -263,7 +280,6 @@ namespace WebApplication2.Controllers
 			ViewBag.totalSpending = totalSpendingAmount();
 			ViewBag.mostSpendingMonth = mostSpendingMonth();
 			ViewBag.boughtBooks = boughtBooks();
-			ViewBag.mostLoveCategory = mostLoveCategory();
 
 			return PartialView(wallet);
 		}

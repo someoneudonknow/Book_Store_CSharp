@@ -15,10 +15,18 @@
 			<canvas id="pie-chart" height="500" width="700"></canvas>
 		</div>
 		<div class="col-4">
-			<h5>Thống kê</h5>
-			<p>Tổng số tiền đã chi: @ViewBag.totalSpending.ToString("#,##0").Replace(",", ".") VND</p>
-			<p>Tháng chi nhiều nhất: @ViewBag.mostSpendingMonth.Key (@ViewBag.mostSpendingMonth.Value.ToString("#,##0").Replace(",", ".") VND)</p>
-			<p>Số sách đã mua: @ViewBag.boughtBooks cuốn</p>
+			<p style="font-size: 17px;">
+				<span class="font-weight-bold">
+					Tổng số tiền đã chi:
+				</span>
+				@ViewBag.totalSpending.ToString("#,##0").Replace(",", ".") VND
+			</p>
+			<p style="font-size: 17px;">
+				<span class="font-weight-bold">
+					Tháng chi nhiều nhất:
+				</span>
+				tháng @ViewBag.mostSpendingMonth.Key (@ViewBag.mostSpendingMonth.Value.ToString("#,##0").Replace(",", ".") VND)
+			</p>
 		</div>
 	</div>
 </div>

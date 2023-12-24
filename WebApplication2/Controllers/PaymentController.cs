@@ -8,7 +8,9 @@ using WebApplication2.Models;
 
 namespace WebApplication2.Controllers
 {
-    public class PaymentController : Controller
+	[Authorize(Roles = "Customer")]
+
+	public class PaymentController : Controller
     {
         private BookStoreManagerEntities db = new BookStoreManagerEntities();
         // GET: Payment
@@ -42,6 +44,7 @@ namespace WebApplication2.Controllers
             TempData["IntTotal"] = total;
             TempData["ListID"] = listID;
             ViewBag.ErrorMessage = TempData["ErrorMessage"];
+
             return View(SelectedCarts);
         }
         [Authorize]
@@ -73,7 +76,7 @@ namespace WebApplication2.Controllers
                 OrderPaymentMethod = Request["PaymentMethod"].ToString(),
                 CustomerID = person
             };
-
+            
             db.CUSTOMER_ORDER.Add(new_Order);
             db.SaveChanges();
             var id = db.CUSTOMER_ORDER.OrderByDescending(row => row.OrderID).FirstOrDefault().OrderID;

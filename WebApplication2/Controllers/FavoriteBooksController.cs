@@ -9,7 +9,9 @@ using WebApplication2.Models;
 
 namespace WebApplication2.Controllers
 {
-    public class FavoriteBooksController : Controller
+	[Authorize(Roles = "Customer")]
+
+	public class FavoriteBooksController : Controller
     {
         private BookStoreManagerEntities db = new BookStoreManagerEntities();
 

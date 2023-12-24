@@ -1,5 +1,5 @@
---create database BookStoreManager;
-
+﻿--create database BookStoreManager;
+drop database BookStoreManager
 
 use BookStoreManager;
 
@@ -84,6 +84,8 @@ CREATE TABLE PROMOTION(
     FOREIGN KEY (ManagerID) REFERENCES MANAGER(ManagerID)
 )
 alter table PROMOTION add PromotionDetails nvarchar(max);
+select * from PROMOTION
+insert into PROMOTION values('abc', 11,'2023-12-19 09:50:00.000','2023-12-23 09:14:00.000',1,N'sẽ được áp dụng khuyến mãi' )
 --alter table promotion alter column PromotionDetails nvarchar(max);
 CREATE TABLE BOOK_COLLECTION(
 	BookCollectionID INT PRIMARY KEY IDENTITY(1,1),

@@ -51,7 +51,7 @@
 
     <div class="modal fade" id="editModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog" role="document">
-            <div class="modal-content">
+            <div class="modal-content"  style="width: 700px">
                 <div class="modal-header">
                     <h5 class="modal-title" id="exampleModalLabel">Sách</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
@@ -94,22 +94,28 @@
                                 <thead>
                                     <tr>
                                         <th>
-                                            @Html.DisplayNameFor(model => model.First().EditionID)
+                                            @*@Html.DisplayNameFor(model => model.First().EditionID)*@
+                                            Mã sách
                                         </th>
                                         <th>
-                                            @Html.DisplayNameFor(model => model.First().EditionName)
+                                            @*@Html.DisplayNameFor(model => model.First().EditionName)*@
+                                            Tên sách
                                         </th>
                                         <th>
-                                            @Html.DisplayNameFor(model => model.First().EditionPrice)
+                                            @*@Html.DisplayNameFor(model => model.First().EditionPrice)*@
+                                            Giá gốc
                                         </th>
                                         <th>
-                                            @Html.DisplayNameFor(model => model.First().EditionPageCount)
+                                            @*@Html.DisplayNameFor(model => model.First().EditionPageCount)*@
+                                            Số trang sách
                                         </th>
                                         <th>
-                                            @Html.DisplayNameFor(model => model.First().EditionAuthor)
+                                            @*@Html.DisplayNameFor(model => model.First().EditionAuthor)*@
+                                            Tên tác giả
                                         </th>
                                         <th>
-                                            @Html.DisplayNameFor(model => model.First().BOOK_COLLECTION.BookCollectionName)
+                                            @*@Html.DisplayNameFor(model => model.First().BOOK_COLLECTION.BookCollectionName)*@
+                                            Tên bộ sách
                                         </th>
 
                                         <th>Thao tác</th>

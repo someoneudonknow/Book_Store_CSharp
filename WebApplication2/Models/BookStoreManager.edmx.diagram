@@ -79,6 +79,8 @@
         <AssociationConnector Association="BookStoreManagerModel.MARKED_BOOK" ManuallyRouted="false" />
         <EntityTypeShape EntityType="BookStoreManagerModel.V_cus_order_status_not_success" Width="1.5" PointX="3.375" PointY="6.75" />
         <EntityTypeShape EntityType="BookStoreManagerModel.V_cus_order_status" Width="1.5" PointX="5.375" PointY="6.75" />
+        <EntityTypeShape EntityType="BookStoreManagerModel.V_cus_order_status_is_cancel" Width="1.5" PointX="7.375" PointY="3.75" />
+        <EntityTypeShape EntityType="BookStoreManagerModel.V_cus_order_status_is_success" Width="1.5" PointX="7.375" PointY="6.75" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

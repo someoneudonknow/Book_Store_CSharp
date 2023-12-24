@@ -12,6 +12,7 @@ namespace WebApplication2.Models
 		public BOOK_EDITION currentBook { get; set; }
 		public string relativeCollectionName { get; set; }
 		public List<BOOK_EDITION_IMAGE> imageList { get; set; }
+		public List<BOOK_EDITION> sameCollectionBooks { get; set; }
 	}
 
 	public class FilterModel

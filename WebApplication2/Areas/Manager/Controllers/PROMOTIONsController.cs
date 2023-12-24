@@ -113,6 +113,33 @@ namespace WebApplication2.Areas.Manager.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Create([Bind(Include = "PromotionID,PromotionName,PromotionDiscount,PromotionDetails,PromotionStartDate,PromotionEndDate")] PROMOTION pROMOTION, FormCollection form)
         {
+    //        if (ModelState.IsValid)
+    //        {
+    //            string promoDetail = "";
+    //            List<int> editionList = JsonConvert.DeserializeObject<List<int>>(Request["selectedValueInput"]);
+    //            //string addBook_Promotion = "insert into BOOK_PROMOTION values ( "
+    //            foreach (int editionID in editionList)
+    //            {
+    //                BOOK_EDITION book = db.BOOK_EDITION.FirstOrDefault(b => b.EditionID == editionID);
+    //                pROMOTION.BOOK_EDITION.Add(book);
+    //                promoDetail += "Mã sách: " + book.EditionID.ToString() + " - Tên: " + book.EditionName + " ,";
+    //            }
+
+             
+    //            promoDetail += " sẽ được áp dụng khuyến mãi " + pROMOTION.PromotionDiscount + "% từ ngày " + pROMOTION.PromotionStartDate.ToString() + " đến ngày " + pROMOTION.PromotionEndDate.ToString();
+    //            if(string.IsNullOrEmpty(pROMOTION.PromotionDetails))
+				//{
+    //                pROMOTION.PromotionDetails = promoDetail;
+    //            }
+    //            string uniPromoDetail = "N'" + promoDetail + "'";
+
+    //            pROMOTION.ManagerID = (db.MANAGERs.ToList())[0].ManagerID;
+    //            db.Database.ExecuteSqlCommand("insert into PROMOTION values (@name , @discount , @start , @end , @managerID , @detail )", new SqlParameter("@name", pROMOTION.PromotionName), new SqlParameter("@discount", pROMOTION.PromotionDiscount), new SqlParameter("@start", pROMOTION.PromotionStartDate), new SqlParameter("@end", pROMOTION.PromotionEndDate), new SqlParameter("@managerID", pROMOTION.ManagerID), new SqlParameter("@detail", uniPromoDetail));
+    //            //db.PROMOTIONs.Add(pROMOTION);
+    //            db.Database.ExecuteSqlCommand("insert into BOOK_PROMOTION values (@name , @discount , @start , @end , @managerID , @detail )", new SqlParameter("@name", pROMOTION.PromotionName), new SqlParameter("@discount", pROMOTION.PromotionDiscount), new SqlParameter("@start", pROMOTION.PromotionStartDate), new SqlParameter("@end", pROMOTION.PromotionEndDate), new SqlParameter("@managerID", pROMOTION.ManagerID), new SqlParameter("@detail", uniPromoDetail));
+    //            db.SaveChanges();
+    //            return RedirectToAction("Index");
+    //        }
             if (ModelState.IsValid)
             {
                 string promoDetail = "";
@@ -124,26 +151,20 @@ namespace WebApplication2.Areas.Manager.Controllers
                     pROMOTION.BOOK_EDITION.Add(book);
                     promoDetail += "Mã sách: " + book.EditionID.ToString() + " - Tên: " + book.EditionName + " ,";
                 }
-
-                //for (int i = 6; i < form.AllKeys.Length; i++)
-                //{
-                //    if (form.AllKeys[i] != null)
-                //    {
-                //        int bookID = int.Parse(form.AllKeys[i]);
-                //        BOOK_EDITION book = db.BOOK_EDITION.FirstOrDefault(b => b.EditionID == bookID);
-                //        pROMOTION.BOOK_EDITION.Add(book);
-                //        promoDetail += "Mã sách: " + book.EditionID.ToString() + " - Tên: " + book.EditionName +" ";
-                //    }
-                //}
                 promoDetail += " sẽ được áp dụng khuyến mãi " + pROMOTION.PromotionDiscount + "% từ ngày " + pROMOTION.PromotionStartDate.ToString() + " đến ngày " + pROMOTION.PromotionEndDate.ToString();
 
+                string uniPromoDetail = "";
+                uniPromoDetail = "N'" + pROMOTION.PromotionDetails + "'";
                 if (string.IsNullOrEmpty(pROMOTION.PromotionDetails))
                 {
-                    string uniPromoDetail = "N'" + promoDetail + "'";
-                    pROMOTION.PromotionDetails = uniPromoDetail;
+                    uniPromoDetail = "N'" + promoDetail + "'";
                 }
+
                 pROMOTION.ManagerID = (db.MANAGERs.ToList())[0].ManagerID;
                 db.PROMOTIONs.Add(pROMOTION);
+                db.SaveChanges();
+                int promoID = db.PROMOTIONs.ToList().LastOrDefault().PromotionID;
+                db.Database.ExecuteSqlCommand("update PROMOTION set PromotionDetails = @detail where PromotionID = @id ", new SqlParameter("@detail", uniPromoDetail), new SqlParameter("@id", promoID));
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
@@ -221,9 +242,9 @@ namespace WebApplication2.Areas.Manager.Controllers
 
                     if (useGenerate)
                     {
-                        promoDetail += " sẽ được áp dụng khuyến mãi " + p.PromotionDiscount + "% từ ngày" + p.PromotionStartDate.ToString() + " đến ngày " + p.PromotionEndDate.ToString();
+                        promoDetail += " sẽ được áp dụng khuyến mãi " + p.PromotionDiscount + "% từ ngày " + p.PromotionStartDate.ToString() + " đến ngày " + p.PromotionEndDate.ToString();
                         string uPromoDetail = "N'" + promoDetail + "'";
-                        p.PromotionDetails = uPromoDetail;
+                        db.Database.ExecuteSqlCommand("update PROMOTION set PromotionDetails = @detail where PromotionID = @id ", new SqlParameter("@detail", uPromoDetail), new SqlParameter("@id", pROMOTION.PromotionID));
                     }
                     db.SaveChanges();
                 }

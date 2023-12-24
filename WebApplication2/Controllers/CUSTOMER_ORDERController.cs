@@ -13,7 +13,9 @@ using WebApplication2.Models;
 
 namespace WebApplication2.Controllers
 {
-    public class CUSTOMER_ORDERController : Controller
+	[Authorize(Roles = "Customer,Shipper,Staff")]
+
+	public class CUSTOMER_ORDERController : Controller
     {
         private BookStoreManagerEntities db = new BookStoreManagerEntities();
 
@@ -207,8 +209,9 @@ namespace WebApplication2.Controllers
                 sTATUS.UpdateTime = DateTime.Now;
                 db.CUSTOMER_ORDER_STATUS.Add(sTATUS);
                 db.SaveChanges();
+                TempData["SuccessMessage"] = "Hủy đơn thành công";
             }
-            return RedirectToAction("Index");
+            return RedirectToAction("Index", "Manage");
         }
 
         //[ValidateAntiForgeryToken]
@@ -243,7 +246,7 @@ namespace WebApplication2.Controllers
             string accID = User.Identity.GetUserId();
             var CustomerID = db.People.FirstOrDefault(p => p.AccountID == accID).PersonID;
 
-            var cusOrderStatus = db.CUSTOMER_ORDER_STATUS.LastOrDefault(o => o.OrderID == id).StatusID;
+            var cusOrderStatus = db.CUSTOMER_ORDER_STATUS.ToList().LastOrDefault(o => o.OrderID == id).StatusID;
             if (Convert.ToInt32(cusOrderStatus) == 4)
             {
                 CUSTOMER_ORDER cusOrder = db.CUSTOMER_ORDER.FirstOrDefault(o => o.OrderID == id);

@@ -4,8 +4,7 @@ go;
 create or alter proc sp_switch_status(@orderID int) as
 begin
 	declare @currentStatus int
-	declare @deliveringMethod nvarchar(50)
-	declare @deliverID int
+	declare @deliveringMethod nvarchar(50) = (select OrderShippingMethod from CUSTOMER_ORDER where OrderID = @orderID)
 
 	select @currentStatus = max(StatusID) from CUSTOMER_ORDER_STATUS where OrderID = @orderID
 	if(@currentStatus = 2)
@@ -13,7 +12,10 @@ begin
 	else if(@currentStatus = 4)
 	begin
 		if(@deliveringMethod = 'SHIPPING')
-			insert into CUSTOMER_ORDER_STATUS VALUES(@orderID, 6, GETDATE())
+		begin
+					insert into CUSTOMER_ORDER_STATUS VALUES(@orderID, 6, GETDATE())
+		end
+
 		else
 		begin
 			insert into CUSTOMER_ORDER_STATUS VALUES(@orderID, 5, GETDATE())
@@ -110,3 +112,4 @@ FROM (
     FROM CUSTOMER_ORDER_STATUS
 ) AS subquery
 WHERE rn = 1 and StatusID in (3,8);
+select * from CUSTOMER_ORDER

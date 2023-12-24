@@ -32,5 +32,17 @@ function nodeScriptIs(node) {
     return node.tagName === 'SCRIPT';
 }
 
-nodeScriptIs(document.getElementsByTagName("body")[0])
-console.log(document.getElementsByTagName("body")[0])
+// infinity scroll implement
+async function infinityScroll(itemsAmount = 10, containerSelector, itemCreater, apiLink) {
+    const container = document.querySelector(containerSelector);
+    
+    const response = await fetch(apiLink);
+    const data = await response.text();
+
+
+
+    if (container) {
+
+	}
+}
+

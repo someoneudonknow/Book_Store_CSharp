@@ -18,7 +18,7 @@
 			{
 				if (ViewBag.isMarked == true)
 				{
-					<a action="remove" class="btn btn-outline-dark btn-square" id="add-to-favorite-btn-@Model.EditionID-@randomString">
+					<a action="remove" class="btn btn-outline-dark btn-square btn-favorite" id="add-to-favorite-btn-@Model.EditionID-@randomString">
 						<i class="fa-solid fa-heart"></i>
 					</a>
 				}
@@ -42,8 +42,28 @@
 							new { @class = "h6 text-decoration-none text-truncate" }
 						)
 		<div class="d-flex align-items-center justify-content-center mt-2">
-			<h5>@Model.EditionPrice.ToString("#,##0").Replace(",", ".") VND</h5>
-			@*<h6 class="text-muted ml-2"><del>$123.00</del></h6>*@
+			@if (Model.PROMOTIONs != null && Model.PROMOTIONs.Count > 0)
+			{
+				var allValidPromotions = Model.PROMOTIONs.Where(p => p.PromotionStartDate.CompareTo(DateTime.Now) < 0).ToList();
+				var maxDiscount = allValidPromotions.Max(p => p.PromotionDiscount);
+				var promotion = allValidPromotions.First(p => p.PromotionDiscount == maxDiscount);
+				var discountedPrice = (Model.EditionPrice - (maxDiscount * Model.EditionPrice / 100)).ToString("#,##0").Replace(",", ".");
+
+
+				if (maxDiscount != 0)
+				{
+					<h5>@discountedPrice VND</h5>
+					<h6 class="text-muted ml-2"><del>@Model.EditionPrice.ToString("#,##0").Replace(",", ".") VND</del></h6>
+				}
+				else
+				{
+					<h5>@Model.EditionPrice.ToString("#,##0").Replace(",", ".") VND</h5>
+				}
+			}
+			else
+			{
+				<h5>@Model.EditionPrice.ToString("#,##0").Replace(",", ".") VND</h5>
+			}
 		</div>
 		<div class="d-flex align-items-center justify-content-center mb-1">
 			@for (int i = 0; i < Math.Floor(averageRating); i++)
@@ -65,7 +85,7 @@
 				e.preventDefault();
 				const isRemove = document.querySelector("#add-to-favorite-btn-@Model.EditionID-@randomString").getAttribute("action") == "remove";
 				const action = isRemove ? 'removeFromFavorite' : 'addToFavorite';
-				console.log("check")
+	
 				const respone = await fetch(`/FavoriteBooks/${action}`, {
 					method: "POST",
 					headers: {
@@ -88,6 +108,11 @@
 						document.querySelector("#add-to-favorite-btn-@Model.EditionID-@randomString").setAttribute("action", "add");
 					}
 					updateFavoriteBookAmount();
+					if(window.location.pathname == "/FavoriteBooks") {
+						location.reload();
+					}
+					@*if ()*@
+					
 				} else {
 					createToast("error", data.message);
 				}

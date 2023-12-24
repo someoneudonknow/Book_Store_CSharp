@@ -11,7 +11,9 @@ using WebApplication2.Models;
 
 namespace WebApplication2.Controllers
 {
-    public class TRANSACTION_DETAILSController : Controller
+	[Authorize(Roles = "Customer")]
+
+	public class TRANSACTION_DETAILSController : Controller
     {
         private BookStoreManagerEntities db = new BookStoreManagerEntities();
 

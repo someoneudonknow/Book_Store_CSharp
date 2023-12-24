@@ -50,8 +50,8 @@ else
 					<td>
 						<form class="w-100 text-center" action="@Url.Action("DeleteCart")" method="get">
 							<input type="hidden" name="BookID" value="@cart.Book_Information.EditionID" />
-							<button type="submit" class="btn btn-danger" onclick="return confirm('Are you sure to delete this item ?')">
-								Delete
+							<button type="submit" class="btn btn-danger" onclick="return confirm('Bạn có chắc muốn bỏ sản phẩm này?')">
+								Xóa sản phẩm
 							</button>
 						</form>
 					</td>
@@ -60,10 +60,10 @@ else
 		</table>
 		<div style="width:100%; height:60px;position:relative">
 			<div style="position:absolute; right:0; width:40%">
-				<p style="display: inline; padding-inline: 10px">Total: </p>
+				<p style="display: inline; padding-inline: 10px">Tổng cộng: </p>
 				<p id="txtTotal" style="display: inline; padding-inline: 10px; width: 80%; text-align: right">0 VND</p>
 				@*@Html.ActionLink("Xác nhận")*@
-				<button id="confirm" class="btn btn-primary" style="right:0" >CONFIRM</button>
+				<button id="confirm" class="btn btn-primary" style="right:0" >Xác nhận</button>
 			</div>
 		</div>
 	</div>

@@ -136,7 +136,7 @@ BEGIN
 END
 
 
-drop trigger TR_HANDLE_CUSTOMER_ORDER
+
 -- trigger to calculate OrderTotalPrice from  DetailCurrentPrice and  DetailQuantity
 
 go
@@ -151,8 +151,9 @@ begin
 	select @editionID = i.EditionID, @detailID = i.OrderDetailID from inserted i;
 
 	declare @currentPromo decimal(4,2) = (select top 1 p.PromotionDiscount from PROMOTION p, BOOK_PROMOTION bp
-	where getdate() between p.PromotionStartDate and p.PromotionEndDate and
-	p.PromotionID = bp.PromotionID and bp.EditionID = @editionID 
+	where p.PromotionID = bp.PromotionID and bp.EditionID = @editionID and
+	getdate() between p.PromotionStartDate and p.PromotionEndDate 
+	
 	order by p.PromotionDiscount desc) 
 
 	if @currentPromo = null
@@ -165,7 +166,7 @@ begin
 	begin
 		select @tierDiscount = TierDiscount from TIER where TierID = @tierID
 	end	
-	update CUSTOMER_ORDER_DETAIL set DetailCurrentPrice = DetailCurrentPrice * (100-@tierDiscount)/100 * (100-@currentPromo) /100 where OrderDetailID = @detailID
+	update CUSTOMER_ORDER_DETAIL set DetailCurrentPrice = DetailCurrentPrice * (100-@tierDiscount)/100 where OrderDetailID = @detailID
 	update CUSTOMER_ORDER set OrderTotalPrice =
 	OrderTotalPrice + (i.DetailCurrentPrice * i.DetailQuantity)
 	from inserted i where CUSTOMER_ORDER.OrderID = i.OrderID
@@ -179,9 +180,11 @@ select * from WALLET
 --select * from CUSTOMER_ORDER
 --select * from STOCK_INVENTORY
 --exec SP_CREATE_CUSTOMER_ORDER_STATUS 22,4
+select * from V_UserRole
+select * from AspNetUsers
 
-DROP TRIGGER TR_CREATE_CUSTOMER_ORDER_STATUS_FROM_ORDER
-drop TRIGGER TR_UPDATE_STOCK_WITH_INSERT
-drop TRIGGER TR_HANDLE_CUSTOMER_ORDER
-drop TRIGGER TR_CALCULATE_TOTAL_PRICE_FROM_ORDER_DETAIL
-drop TRIGGER TR_UPDATE_INVENTORY_AVAILABLE_STOCK
+--DROP TRIGGER TR_CREATE_CUSTOMER_ORDER_STATUS_FROM_ORDER
+--drop TRIGGER TR_UPDATE_STOCK_WITH_INSERT
+--drop TRIGGER TR_HANDLE_CUSTOMER_ORDER
+--drop TRIGGER TR_CALCULATE_TOTAL_PRICE_FROM_ORDER_DETAIL
+--drop TRIGGER TR_UPDATE_INVENTORY_AVAILABLE_STOCK

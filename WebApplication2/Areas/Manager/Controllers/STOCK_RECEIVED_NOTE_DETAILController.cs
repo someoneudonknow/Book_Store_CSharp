@@ -24,6 +24,7 @@ namespace WebApplication2.Areas.Manager.Controllers
             if (id != null)
             {
                 sTOCK_RECEIVED_NOTE_DETAIL = sTOCK_RECEIVED_NOTE_DETAIL.Where(s => s.StockReceivedNoteID == id);
+                ViewBag.id = id;
                 if (sTOCK_RECEIVED_NOTE_DETAIL != null)
                 {
                     //sort order
@@ -106,20 +107,20 @@ namespace WebApplication2.Areas.Manager.Controllers
                     {
                         ViewBag.ErrorMessage = "Không thể thêm mới. Phiếu nhập này đã có tất cả sách trong kho.";
                     }
-                    //ViewBag.EditionID = new SelectList(db.BOOK_EDITION.Where(e => usedEditionList.Contains(e.EditionID) == false), "EditionID", "selectDataTextField");
-                    ViewBag.EditionID = new SelectList(db.BOOK_EDITION.Where(e => usedEditionList.Contains(e.EditionID) == false), "EditionID", "EditionID");
+					ViewBag.EditionID = new SelectList(db.BOOK_EDITION.Where(e => usedEditionList.Contains(e.EditionID) == false), "EditionID", "selectDataTextField");
+					//ViewBag.EditionID = new SelectList(db.BOOK_EDITION.Where(e => usedEditionList.Contains(e.EditionID) == false), "EditionID", "EditionID");
                     ViewBag.HiddenStockID = true;
                 }
                 else
                 {
-                    //ViewBag.EditionID = new SelectList(db.BOOK_EDITION, "EditionID", "selectDataTextField");
-                    ViewBag.EditionID = new SelectList(db.BOOK_EDITION, "EditionID", "EditionID");
+					ViewBag.EditionID = new SelectList(db.BOOK_EDITION, "EditionID", "selectDataTextField");
+					//ViewBag.EditionID = new SelectList(db.BOOK_EDITION, "EditionID", "EditionID");
                 }
             }
             else
             {
-                //ViewBag.EditionID = new SelectList(db.BOOK_EDITION, "EditionID", "selectDataTextField");
-                ViewBag.EditionID = new SelectList(db.BOOK_EDITION, "EditionID", "EditionID");
+				ViewBag.EditionID = new SelectList(db.BOOK_EDITION, "EditionID", "selectDataTextField");
+				//ViewBag.EditionID = new SelectList(db.BOOK_EDITION, "EditionID", "EditionID");
             }
             return PartialView("_CreatePartialView");
         }

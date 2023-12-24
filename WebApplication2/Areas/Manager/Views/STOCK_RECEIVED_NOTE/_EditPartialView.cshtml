@@ -21,12 +21,14 @@
         <div class="error-message">
         </div>
     </div>
-    <div class="form-group">
-        @Html.LabelFor(model => model.StockReceivedNoteDate, htmlAttributes: new { @class = "control-label  col-md-10 " })
-        <div id="editDate" class="col-md-10">
-            <input type="datetime-local" id="StockReceivedNoteDate" name="StockReceivedNoteDate" class="form-control" value="@ViewBag.StockDate" required />
-        </div>
-    </div>
+	<div class="form-group">
+		@*@Html.LabelFor(model => model.StockReceivedNoteDate, htmlAttributes: new { @class = "control-label  col-md-10 " })*@
+		<label class="control-label col-md-10 ">Ngày nhập</label>
+
+		<div id="editDate" class="col-md-10">
+			<input type="datetime-local" id="StockReceivedNoteDate" name="StockReceivedNoteDate" class="form-control" value="@ViewBag.StockDate" required />
+		</div>
+	</div>
 
     <div class="form-group">
         @Html.LabelFor(model => model.PublisherID, "Nhà xuất bản", htmlAttributes: new { @class = "control-label col-md-10" })

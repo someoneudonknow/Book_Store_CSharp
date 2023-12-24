@@ -3,7 +3,7 @@
 	<div class="row px-xl-5">
 		<div class="col-lg-3 d-none d-lg-block">
 			<a class="btn d-flex align-items-center justify-content-between bg-primary w-100" data-toggle="collapse" href="#navbar-vertical" style="height: 65px; padding: 0 30px;">
-				<h6 class="text-dark m-0"><i class="fa fa-bars mr-2"></i>Categories</h6>
+				<h6 class="text-dark m-0"><i class="fa fa-bars mr-2"></i>Thể loại</h6>
 				<i class="fa fa-angle-down text-dark"></i>
 			</a>
 			<nav class="collapse position-absolute navbar navbar-vertical navbar-light align-items-start p-0 bg-light" id="navbar-vertical" style="width: calc(100% - 30px); z-index: 999;">
@@ -34,11 +34,11 @@
 				</button>
 				<div class="collapse navbar-collapse justify-content-between" id="navbarCollapse">
 					<div class="navbar-nav mr-auto py-0">
-						@Html.ActionLink("Home", "Index", "Home", null, new { @class = "nav-item nav-link" })
-						@Html.ActionLink("Shop", "Shop", "Home", null, new { @class = "nav-item nav-link" })
+						@Html.ActionLink("Trang chủ", "Index", "Home", null, new { @class = "nav-item nav-link" })
+						@Html.ActionLink("Cửa hàng", "Shop", "Home", null, new { @class = "nav-item nav-link" })
 					</div>
 					<div class="navbar-nav ml-auto py-0 d-none d-lg-block">
-						<a href="@Url.Action("Index", "FavoriteBooks")" class="btn px-0">
+						<a href="@Url.Action("Index", "FavoriteBooks")" class="btn px-0 favorite-page-btn">
 							<i class="fas fa-heart text-primary"></i>
 							<span class="badge text-secondary border border-secondary rounded-circle" id="user-favorite-books-amount" style="padding-bottom: 2px;">@ViewBag.favoriteBooksAmount</span>
 						</a>

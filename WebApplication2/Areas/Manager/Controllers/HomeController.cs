@@ -22,6 +22,7 @@ namespace WebApplication2.Areas.Manager.Controllers
         }
         public ActionResult Dashboard()
         {
+            var a = db.V_edition_buy_count.Sum(item => item.BuyCount); 
             ViewBag.numberOfSoldProduct = db.V_edition_buy_count.Sum(item => item.BuyCount);
             ViewBag.revenue = db.V_edition_buy_count.Sum(item => item.TotalPrice);
             ViewBag.numberOfUser = db.People.Count();

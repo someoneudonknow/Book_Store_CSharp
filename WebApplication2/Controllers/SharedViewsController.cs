@@ -9,7 +9,9 @@ using WebApplication2.Models;
 
 namespace WebApplication2.Controllers
 {
-    public class SharedViewsController : Controller
+	//[Authorize(Roles = "Customer")]
+
+	public class SharedViewsController : Controller
     {
         private BookStoreManagerEntities db = new BookStoreManagerEntities();
         public ActionResult Navbar()
@@ -18,12 +20,12 @@ namespace WebApplication2.Controllers
             ViewBag.cartItemsCount = ((List<CartModels>)Session["ShoppingCart"])?.Count ?? 0; ;
             ViewBag.categoriesList = data;
 
-            if(User.Identity.IsAuthenticated)
+            if(User.Identity.IsAuthenticated && User.IsInRole("Customer"))
 			{
                 string userId = User.Identity.GetUserId();
                 Person relatedPerson = db.People.FirstOrDefault(p => p.AccountID == userId);
 
-                ViewBag.favoriteBooksAmount = relatedPerson.BOOK_EDITION.Count;
+                ViewBag.favoriteBooksAmount = relatedPerson?.BOOK_EDITION.Count ?? 0;
 			}
 			else
 			{
@@ -39,15 +41,18 @@ namespace WebApplication2.Controllers
 			{
                 string userId = User.Identity.GetUserId();
                 Person relatedPerson = db.People.FirstOrDefault(p => p.AccountID == userId);
-
-                if(relatedPerson.BOOK_EDITION.Count > 0 && relatedPerson.BOOK_EDITION.Any(b => b.EditionID == book.EditionID))
+                if(relatedPerson != null)
 				{
-                    ViewBag.isMarked = true;
-				}
-				else
-				{
-                    ViewBag.isMarked = false;
+                    if (relatedPerson.BOOK_EDITION.Count > 0 && relatedPerson.BOOK_EDITION.Any(b => b.EditionID == book.EditionID))
+                    {
+                        ViewBag.isMarked = true;
+                    }
+                    else
+                    {
+                        ViewBag.isMarked = false;
+                    }
                 }
+                
             }
 
             return PartialView("_Book", book);

@@ -182,6 +182,15 @@ const app = {
 				_this.filterData.order = sortOption;
 				_this.submitFilterForm();
 			};
+		});
+
+		$$(".cancel-form").forEach(form => {
+			form.onsubmit = function (e) {
+				e.preventDefault();
+				if (confirm("Bạn có chắc muốn hủy đơn hàng này")) {
+					this.submit();
+				}
+			}
 		})
 	},
 

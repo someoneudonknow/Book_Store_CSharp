@@ -10,7 +10,9 @@ using static WebApplication2.Models.BOOK_REVIEWViewModel;
 
 namespace WebApplication2.Controllers
 {
-    public class BookReviewController : Controller
+	[Authorize(Roles = "Customer")]
+
+	public class BookReviewController : Controller
     {
         [HttpPost]
         [Authorize]
@@ -28,7 +30,7 @@ namespace WebApplication2.Controllers
                         return RedirectToAction("BookDetailsClient", "BOOK_EDITION", new { id = newReview.EditionID });
                     };
 
-					var orderDetails = db.CUSTOMER_ORDER_DETAIL.Where(od => od.EditionID == newReview.EditionID && od.CUSTOMER_ORDER.CustomerID == person.PersonID);
+					var orderDetails = db.CUSTOMER_ORDER_DETAIL.Where(od => od.EditionID == newReview.EditionID && od.CUSTOMER_ORDER.CustomerID == person.PersonID && od.CUSTOMER_ORDER.CUSTOMER_ORDER_STATUS.LastOrDefault().ORDER_STATUS.OrderStatus == "SUCCESS");
 
 					if (!orderDetails.Any())
 					{

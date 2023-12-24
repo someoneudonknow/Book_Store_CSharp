@@ -25,7 +25,8 @@ namespace WebApplication2.Models
         public string PublisherDescription { get; set; }
         public string PublisherImage { get; set; }
         public int ManagerID { get; set; }
-    
+        public string selectDataTextField => $"Mã: {PublisherID} - Tên: {PublisherName} ";
+
         public virtual MANAGER MANAGER { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<STOCK_RECEIVED_NOTE> STOCK_RECEIVED_NOTE { get; set; }

@@ -35,7 +35,8 @@ namespace WebApplication2.Models
         public string EditionAuthor { get; set; }
         public int ManagerID { get; set; }
         public Nullable<int> BookCollectionID { get; set; }
-    
+        public string selectDataTextField => $"Mã: {EditionID} - Tên: {EditionName} ";
+
         public virtual BOOK_COLLECTION BOOK_COLLECTION { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<BOOK_EDITION_IMAGE> BOOK_EDITION_IMAGE { get; set; }

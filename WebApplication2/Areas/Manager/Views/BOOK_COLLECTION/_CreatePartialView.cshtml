@@ -17,13 +17,15 @@
 
 
     @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-    <div class="form-group">
-        @Html.LabelFor(model => model.BookCollectionName, htmlAttributes: new { @class = "control-label  col-md-10" })
-        <div id="createDuplicate" class="col-md-10">
-            @Html.EditorFor(model => model.BookCollectionName, new { htmlAttributes = new { @class = "form-control" , @onchange = "handleDuplicate()" , @required = "required" } })
-            @Html.ValidationMessageFor(model => model.BookCollectionName, "", new { @class = "text-danger" })
-        </div>
-    </div>
+<div class="form-group">
+	@*@Html.LabelFor(model => model.BookCollectionName, htmlAttributes: new { @class = "control-label  col-md-10" })*@
+	<label class="control-label col-md-10 ">Tên bộ sách</label>
+
+	<div id="createDuplicate" class="col-md-10">
+		@Html.EditorFor(model => model.BookCollectionName, new { htmlAttributes = new { @class = "form-control", @onchange = "handleDuplicate()", @required = "required" } })
+		@Html.ValidationMessageFor(model => model.BookCollectionName, "", new { @class = "text-danger" })
+	</div>
+</div>
     <div class="form-group">
         <div class="col-md-offset-2 col-md-10">
             <input id="createButton" type="submit" value="Tạo mới" class="btn btn-default" />

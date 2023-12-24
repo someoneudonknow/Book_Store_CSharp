@@ -191,21 +191,14 @@
     <Compile Include="Controllers\BANK_ACCOUNTController.cs" />
     <Compile Include="Controllers\BookCartController.cs" />
     <Compile Include="Controllers\BookReviewController.cs" />
-    <Compile Include="Controllers\BOOK_COLLECTIONController.cs" />
     <Compile Include="Controllers\BOOK_EDITIONController.cs" />
-    <Compile Include="Controllers\CATEGORiesController.cs" />
     <Compile Include="Controllers\CUSTOMER_ORDERController.cs" />
     <Compile Include="Controllers\FavoriteBooksController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Controllers\PaymentController.cs" />
-    <Compile Include="Controllers\PROMOTIONsController.cs" />
     <Compile Include="Areas\Manager\Controllers\PUBLISHERsController.cs" />
     <Compile Include="Controllers\SharedViewsController.cs" />
-    <Compile Include="Controllers\STOCK_INVENTORYController.cs" />
-    <Compile Include="Controllers\STOCK_RECEIVED_NOTEController.cs" />
-    <Compile Include="Controllers\STOCK_RECEIVED_NOTE_DETAILController.cs" />
-    <Compile Include="Controllers\TIERsController.cs" />
     <Compile Include="Controllers\TRANSACTION_DETAILSController.cs" />
     <Compile Include="Controllers\UserController.cs" />
     <Compile Include="Custom\BooksFilter.cs" />
@@ -301,12 +294,6 @@
     <Compile Include="Models\Sp_check_valid_promotion_Result.cs">
       <DependentUpon>BookStoreManager.tt</DependentUpon>
     </Compile>
-    <Compile Include="Models\sp_helpdiagramdefinition_Result.cs">
-      <DependentUpon>BookStoreManager.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Models\sp_helpdiagrams_Result.cs">
-      <DependentUpon>BookStoreManager.tt</DependentUpon>
-    </Compile>
     <Compile Include="Models\StatisticOfMonthViewModel.cs" />
     <Compile Include="Models\STOCK_INVENTORY.cs">
       <DependentUpon>BookStoreManager.tt</DependentUpon>
@@ -315,9 +302,6 @@
       <DependentUpon>BookStoreManager.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\STOCK_RECEIVED_NOTE_DETAIL.cs">
-      <DependentUpon>BookStoreManager.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Models\sysdiagram.cs">
       <DependentUpon>BookStoreManager.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\TIER.cs">
